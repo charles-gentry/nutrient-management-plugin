@@ -1,3 +1,13 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "rb209": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["rb209-mcp-server/index.js"],
+      "env": {
+        "RB209_USERNAME": "${RB209_USERNAME}",
+        "RB209_LICENCE_KEY": "${RB209_LICENCE_KEY}"
+      }
+    }
+  }
 }

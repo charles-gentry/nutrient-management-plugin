@@ -168,3 +168,20 @@ Apply in the seedbed before or at planting.
 4. **Banded phosphate**: More efficient than broadcast; can reduce rates by 20–30% while maintaining yield
 5. **Chloride sensitivity**: Avoid muriate of potash (KCl) for processing/crisping varieties; use sulphate of potash instead
 6. **Soil pH**: Target 5.8–6.5; higher pH increases scab risk; lower pH reduces micronutrient availability
+
+---
+
+## Using the RB209 API for Potato Recommendations
+
+For live, authoritative recommendations rather than static table look-ups, use the RB209 API tools:
+
+1. Call **rb209_get_crop_groups** — potatoes appear as their own crop group.
+2. Call **rb209_get_crop_types** with the potato CropGroupID to find the CropTypeID for the specific variety group (Group 1–4).
+3. Call **rb209_get_soil_types** to confirm the SoilTypeID for the field.
+4. Build the `fieldData` object with:
+   - `Field.FieldType = 1` (Arable)
+   - `Field.Arable` array containing the potato crop with CropGroupID, CropTypeID, planting date, and expected yield
+   - `Field.Soil` with SoilTypeID and a SoilAnalyses entry containing pH, SNS index, P index, K index, Mg index
+5. Call **rb209_get_recommendations** with the assembled fieldData.
+
+The response will include `Recommendations` (kg/ha for N, P₂O₅, K₂O, MgO, SO₃), `NutrientsSupplied` (from organic materials if provided), and `AdviceNotes`.

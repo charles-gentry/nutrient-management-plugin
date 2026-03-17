@@ -158,3 +158,18 @@ Apply in early spring with the first nitrogen dressing. Silage crops are more at
 5. **NVZ closed periods**: Check local NVZ rules for closed periods for nitrogen fertilisers on grassland
 6. **Organic manures**: Slurry and digestate are excellent nutrient sources for grass; always deduct their available nutrient contributions before calculating fertiliser need
 7. **Soil testing**: Sample every 3–5 years; sample under grazing when sward is short and soil not poached
+
+---
+
+## Using the RB209 API for Grassland Recommendations
+
+For live, authoritative recommendations rather than static table look-ups, use the RB209 API tools:
+
+1. Call **rb209_get_soil_types** to confirm the SoilTypeID for the field.
+2. Build the `fieldData` object with:
+   - `Field.FieldType = 2` (Grassland)
+   - `Field.Grassland` containing SNSID, GrassGrowthClassID, YieldTypeID, SequenceID, and GrasslandSequence (position, crop material ID, and yield per cut)
+   - `Field.Soil` with SoilTypeID and a SoilAnalyses entry containing pH, SNS index, P index, K index, Mg index
+3. Call **rb209_get_recommendations** with the assembled fieldData.
+
+The response will include `Recommendations` (kg/ha by nutrient and cut sequence), `NutrientsSupplied` (from organic materials if provided), and `AdviceNotes`.

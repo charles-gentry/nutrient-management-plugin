@@ -172,3 +172,20 @@ Apply between **February and April**. Cereals and oilseed rape are the most sulp
 3. **Sulphur**: Early spring application (Feb–Apr) before active crop growth
 4. **Straw management**: Straw incorporation reduces potash requirements; straw removal increases them significantly
 5. **Organic materials**: Always calculate and deduct crop-available nutrients from manures/slurries before calculating fertiliser need
+
+---
+
+## Using the RB209 API for Arable Recommendations
+
+For live, authoritative recommendations rather than static table look-ups, use the RB209 API tools:
+
+1. Call **rb209_get_crop_groups** — arable crops are typically under group IDs for Cereals, Oilseeds, Sugar Beet, Peas and Beans.
+2. Call **rb209_get_crop_types** with the relevant CropGroupID to get the specific CropTypeID for the user's crop (e.g. Winter Wheat, Winter OSR).
+3. Call **rb209_get_soil_types** to confirm the SoilTypeID for the field.
+4. Build the `fieldData` object with:
+   - `Field.FieldType = 1` (Arable)
+   - `Field.Arable` array containing the crop with CropGroupID, CropTypeID, sowing date, and expected yield
+   - `Field.Soil` with SoilTypeID and a SoilAnalyses entry containing pH, SNS index, P index, K index, Mg index
+5. Call **rb209_get_recommendations** with the assembled fieldData.
+
+The response will include `Recommendations` (kg/ha by nutrient), `NutrientsSupplied` (from organic materials if provided), and `AdviceNotes`.

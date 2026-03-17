@@ -54,6 +54,38 @@ This plugin provides the following skills that Claude loads as needed:
 | **vegetables** | N, P, K, Mg, S and micronutrient recommendations for all vegetable and bulb crops |
 | **fruit-vines-hops** | N, P, K recommendations for top fruit, soft fruit, strawberries, grapes and hops |
 
+## Step 3b: RB209 API Tools
+
+This plugin connects to the **AHDB RB209 Web API** to calculate live, authoritative nutrient recommendations. When a user provides sufficient field data, prefer using the API tools over static tables for more accurate results.
+
+The following MCP tools are available:
+
+| Tool | Purpose |
+|---|---|
+| **rb209_get_crop_groups** | List all arable crop groups (use to find CropGroupID values) |
+| **rb209_get_crop_types** | List crop types within a crop group (use to find CropTypeID values) |
+| **rb209_get_soil_types** | List all soil types (use to find SoilTypeID values) |
+| **rb209_get_previous_crops** | List previous crop options for SNS assessment |
+| **rb209_get_recommendations** | Submit field data and receive nutrient recommendations from the RB209 API |
+
+### When to use the API tools
+
+Use the API tools when the user:
+- Wants a precise, calculated recommendation rather than a table look-up
+- Has provided specific soil analysis values (pH, P index, K index, Mg index, SNS index)
+- Wants to account for organic manure contributions automatically
+- Is building a fertiliser plan and needs authoritative output they can record or share
+
+### Typical API workflow
+
+1. Call **rb209_get_crop_groups** to find the correct CropGroupID for the user's crop
+2. Call **rb209_get_crop_types** with that CropGroupID to find the CropTypeID
+3. Call **rb209_get_soil_types** to confirm the correct SoilTypeID for the field
+4. Optionally call **rb209_get_previous_crops** to confirm the previous crop ID
+5. Call **rb209_get_recommendations** with the assembled field data object to receive nutrient recommendations
+
+If the API is unavailable or RB209 credentials are not configured, fall back to the static tables in the crop-specific skill files.
+
 ## Step 4: Important Caveats to Always Communicate
 
 Always remind users that:
