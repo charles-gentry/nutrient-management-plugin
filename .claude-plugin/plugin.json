@@ -1,0 +1,8 @@
+{
+  "name": "nutrient-management",
+  "version": "1.0.0",
+  "description": "UK agricultural nutrient management recommendations based on the AHDB RB209 Nutrient Management Guide. Covers arable crops, grass and forage, potatoes, vegetables, and fruit production with evidence-based fertiliser planning guidance.",
+  "author": {
+    "name": "charles-gentry"
+  }
+}
