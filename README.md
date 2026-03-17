@@ -55,14 +55,31 @@ The API is licensed under the [Open Government Licence v3.0](https://www.nationa
 
 ### Configuring credentials
 
-Set the following environment variables before starting Claude Code (or add them to your shell profile):
+#### In Cowork (web)
+
+Cowork does not currently have a dedicated secrets UI for plugin MCP servers. Credentials are set by the **admin who publishes the plugin** by editing the `env` values in `.mcp.json` before packaging and uploading:
+
+```json
+"env": {
+  "RB209_USERNAME": "your_username",
+  "RB209_LICENCE_KEY": "your_licence_key"
+}
+```
+
+> **Important:** Do not commit the file with real credentials to a public repository. Follow the ZIP upload workflow below, keeping the modified `.mcp.json` local or in a private repo.
+
+If credentials are absent or wrong the MCP server will fail to start; Claude will fall back to the static recommendation tables in the skill files and log an error.
+
+#### In Claude Code (CLI)
+
+Set the environment variables in your shell before launching Claude Code:
 
 ```sh
 export RB209_USERNAME=your_username
 export RB209_LICENCE_KEY=your_licence_key
 ```
 
-The `.mcp.json` in this plugin reads these values automatically. If they are not set the MCP server will refuse to start and Claude will fall back to the static recommendation tables in the skill files.
+Or add them permanently to your shell profile (`~/.zshrc`, `~/.bashrc`, etc.). The `.mcp.json` expands `${RB209_USERNAME}` and `${RB209_LICENCE_KEY}` automatically at startup.
 
 ### Installing the MCP server dependencies
 
